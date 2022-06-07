@@ -1,44 +1,35 @@
-const { JSDOM } = require( "jsdom" );
-const { window } = new JSDOM( "" );
-const $ = require( "jquery" )( window );
-const csv = require('jquery-csv');
+// Baca local file via Papa Parser
 
-DONUT1 = document.getElementById('pie_1');
+var csv = document.getElementById('csv-file');
 
-var data;
-    $.get({
-        type: "GET",
-        url: "cereal.csv",
-        dataType: "text",
-        success: function(response) {
-            console.log("done");
-            data = csv.toArrays(response);
+let btn_baca = document.getElementById('btn').addEventListener('click', () => {
+    Papa.parse(csv.files[0], {
+        download: true,
+        header: true,
+        skipEmptyLines: true,
+        complete: function(result) {
+            // contoh akses elemen csv (array dengan header aktif)
+            // console.log(result.data[0].name);
+            // contoh akses elemen csv (array dengan header non-aktif)
+            // console.log(result.data[0][1])
+
+            var name = [];
+            var cal = [];
+            for (let i = 0;i < 10; i ++) {
+                name[i] = result.data[i].name;
+                cal[i] = result.data[i].calories;
+            }
+
+            PIE = document.getElementById('pie');
+            var data = [{
+                labels : name,
+                values : cal,
+                type : 'pie'
+            }];
+
+            var layout = {font: {size: 18}};
+            var config = {responsive: true};
+            Plotly.newPlot(PIE,data,layout,config);
         }
     });
-
-    
-
-var data = [{
-    labels: ['High Distinction','Distinction','Credit','Pass','Fail'],
-    values: [10,40,25,25,0],
-    domain: {column: 0},
-    name: 'Donut Chart',
-    hover: 'label+percent+name',
-    hole: .4,
-    type: 'pie'
-}];
-
-var layout = {
-    title: "Donut Chart",
-    annotations: [{
-        font: {size: 20},
-        showarrow: false,
-        text: 'TEST_1',
-        x: 0.17,
-        y: 0.5
-    }]
-};
-var config = {responsive: true};
-Plotly.newPlot(DONUT1, data, layout, config);
-
-
+});
