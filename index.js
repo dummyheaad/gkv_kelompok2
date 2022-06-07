@@ -10,26 +10,50 @@ let btn_baca = document.getElementById('btn').addEventListener('click', () => {
         complete: function(result) {
             // contoh akses elemen csv (array dengan header aktif)
             // console.log(result.data[0].name);
+
             // contoh akses elemen csv (array dengan header non-aktif)
             // console.log(result.data[0][1])
 
-            var name = [];
-            var cal = [];
+            var nama = [];
+            var kal = [];
+            var pro = [];
             for (let i = 0;i < 10; i ++) {
-                name[i] = result.data[i].name;
-                cal[i] = result.data[i].calories;
+                nama[i] = result.data[i].name;
+                kal[i] = result.data[i].calories;
+                pro[i] = result.data[i].protein;
             }
 
-            PIE = document.getElementById('pie');
-            var data = [{
-                labels : name,
-                values : cal,
-                type : 'pie'
-            }];
+            PLOT = document.getElementById('plot');
+
+            var plot = [];
+
+            var pie = {
+                labels: nama,
+                value: kal,
+                type: 'pie',
+                hole: 0.5
+            }
+
+            var bar = [];
+            for (var i = 0;i < 10;i ++) {
+                bar[i] = {
+                    x: [nama[i]],
+                    y: [pro[i]],
+                    type: 'bar'
+                };
+            }
+
+            var plot = [];
+            plot.push(pie);
+            for (var i = 0;i < 10;i ++) {
+                plot.push(bar[i]);
+            }
+
+            console.log(plot);
 
             var layout = {font: {size: 18}};
             var config = {responsive: true};
-            Plotly.newPlot(PIE,data,layout,config);
+            Plotly.newPlot(PLOT,plot,layout,config);
         }
     });
 });
