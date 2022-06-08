@@ -14,14 +14,18 @@ let btn_baca = document.getElementById('btn').addEventListener('click', () => {
             // contoh akses elemen csv (array dengan header non-aktif)
             // console.log(result.data[0][1])
 
+            console.log(result.data);
+
             var nama = [];
             var kal = [];
             var pro = [];
+            var gula = [];
 
             for (let i = 0;i < 10; i ++) {
                 nama[i] = result.data[i].name;
                 kal[i] = result.data[i].calories;
                 pro[i] = result.data[i].protein;
+                gula[i] = result.data[i].sugars;
             }
 
             PLOT = document.getElementById('plot');
@@ -36,7 +40,8 @@ let btn_baca = document.getElementById('btn').addEventListener('click', () => {
 
             var plot = [];
 
-            var pie = {
+            var pie = [];
+            pie[0] = {
                 sort: false,
                 labels: nama,
                 values: kal,
@@ -46,6 +51,20 @@ let btn_baca = document.getElementById('btn').addEventListener('click', () => {
                     color: colors
                 }
             }
+
+            pie[1] = {
+                sort: false,
+                labels: nama,
+                values: gula,
+                type: 'pie',
+                domain: {'x': [0.2, 0.8], 'y':[0.1,0.9]},
+                hole: 0.7,
+                marker: {
+                    color: colors
+                }
+            }
+
+            console.log(Object.values(pie[1]));
 
             var bar = [];
             for (var i = 0;i < 10;i ++) {
@@ -62,7 +81,8 @@ let btn_baca = document.getElementById('btn').addEventListener('click', () => {
             }
 
             var plot = [];
-            plot.push(pie);
+            plot.push(pie[0]);
+            plot.push(pie[1]);
             for (var i = 0;i < 10;i ++) {
                 plot.push(bar[i]);
             }
@@ -73,13 +93,26 @@ let btn_baca = document.getElementById('btn').addEventListener('click', () => {
                 height: 1080,
                 font: {size: 13},
                 title: 'Donut Chart + Bar Chart', 
+                annotations: [{
+                    text: 'Calories',
+                    font: {
+                        size: 16,
+                        color: 'black'
+                    },
+                    showarrow: false,
+                    align: 'center',
+                    x: 0.3,
+                    y: 0.04,
+                    xref: 'paper',
+                    yref: 'paper'
+                }],
                 xaxis: {
-                  title: ['Product Name'], 
-                  domain: [0.33, 0.67]
+                  title: 'Product Name', 
+                  domain: [0.4,0.6]
                 }, 
                 yaxis: {
                   title: 'Protein', 
-                  domain: [0.33, 0.67]
+                  domain: [0.5,0.6]
                 },
                 automargin: true,
                 autosize: false,
