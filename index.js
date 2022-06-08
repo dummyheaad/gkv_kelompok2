@@ -14,13 +14,18 @@ let btn_baca = document.getElementById('btn').addEventListener('click', () => {
             // contoh akses elemen csv (array dengan header non-aktif)
             // console.log(result.data[0][1])
 
+            // Mencetak data .csv yang telah diinputkan
+            // Data ini berupa array yang terletak di result.data
             console.log(result.data);
 
+            // Persiapan variabel-variabel untuk menyimpan data pada masing-masing attribute
             var nama = [];
             var kal = [];
             var pro = [];
             var gula = [];
 
+            // Proses inisialisasi masing-masing array dengan nilai yang sesuai
+            // Disini digunakan 10 buah data awal saja
             for (let i = 0;i < 10; i ++) {
                 nama[i] = result.data[i].name;
                 kal[i] = result.data[i].calories;
@@ -28,6 +33,7 @@ let btn_baca = document.getElementById('btn').addEventListener('click', () => {
                 gula[i] = result.data[i].sugars;
             }
 
+            // Mengambil element HTML untuk menggambarkan plot (plotting)
             PLOT = document.getElementById('plot');
             
             // Ambil sequence default warna dari Plotly.js
@@ -38,9 +44,12 @@ let btn_baca = document.getElementById('btn').addEventListener('click', () => {
             // mencetak kode hex untuk warna di urutan pertama
             // console.log(colors(0));
 
-            var plot = [];
 
+
+            // Variabel array untuk menyimpan plot bertipe pie
             var pie = [];
+
+            // pie[0] berisi data calories (kalori)
             pie[0] = {
                 sort: false,
                 labels: nama,
@@ -52,6 +61,7 @@ let btn_baca = document.getElementById('btn').addEventListener('click', () => {
                 }
             }
 
+            // pie[1] berisi data sugars (komposisi gula)
             pie[1] = {
                 sort: false,
                 labels: nama,
@@ -64,9 +74,11 @@ let btn_baca = document.getElementById('btn').addEventListener('click', () => {
                 }
             }
 
-            console.log(Object.values(pie[1]));
-
+            // Variabel array untuk menyimpan plot bertipe bar
+            // Untuk menghasilkan plot dengan warna beragam maka 1 buah bar merepresentasikan 1 buah bar chart
             var bar = [];
+
+            // Disini bar chart dipakai untuk menyimpan data protein
             for (var i = 0;i < 10;i ++) {
                 bar[i] = {
                     name: nama[i],
@@ -80,7 +92,11 @@ let btn_baca = document.getElementById('btn').addEventListener('click', () => {
                 };
             }
 
+
+            // Variabel array untuk menyimpan semua plot yang akan ditampilkan
             var plot = [];
+
+            // Masukkan semua plot yang ada ke array plot
             plot.push(pie[0]);
             plot.push(pie[1]);
             for (var i = 0;i < 10;i ++) {
@@ -88,6 +104,7 @@ let btn_baca = document.getElementById('btn').addEventListener('click', () => {
             }
 
 
+            // Pengaturan layout
             var layout = {
                 width: 1920,
                 height: 1080,
@@ -119,9 +136,10 @@ let btn_baca = document.getElementById('btn').addEventListener('click', () => {
                 showlegend: true
             };
 
+            // Konfigurasi
             var config = {responsive: true};
 
-
+            // Fungsi plotting
             Plotly.newPlot(PLOT,plot,layout,config);
         }
     });
