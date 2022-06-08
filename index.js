@@ -17,6 +17,7 @@ let btn_baca = document.getElementById('btn').addEventListener('click', () => {
             var nama = [];
             var kal = [];
             var pro = [];
+
             for (let i = 0;i < 10; i ++) {
                 nama[i] = result.data[i].name;
                 kal[i] = result.data[i].calories;
@@ -24,22 +25,39 @@ let btn_baca = document.getElementById('btn').addEventListener('click', () => {
             }
 
             PLOT = document.getElementById('plot');
+            
+            // Ambil sequence default warna dari Plotly.js
+            // Disini pewarnaan akan berulang setiap 10 ulangan
+            // Hal ini dilakukan untuk menjaga konsistensi warna agar memudahkan pencocokan data
+            var colors = Plotly.d3.scale.category10();
+
+            // mencetak kode hex untuk warna di urutan pertama
+            // console.log(colors(0));
 
             var plot = [];
 
             var pie = {
+                sort: false,
                 labels: nama,
-                value: kal,
+                values: kal,
                 type: 'pie',
-                hole: 0.5
+                hole: 0.8,
+                marker: {
+                    color: colors
+                }
             }
 
             var bar = [];
             for (var i = 0;i < 10;i ++) {
                 bar[i] = {
+                    name: nama[i],
                     x: [nama[i]],
                     y: [pro[i]],
-                    type: 'bar'
+                    type: 'bar',
+                    showlegend: false,
+                    marker: {
+                        color: [colors(i)]
+                    }
                 };
             }
 
@@ -49,10 +67,28 @@ let btn_baca = document.getElementById('btn').addEventListener('click', () => {
                 plot.push(bar[i]);
             }
 
-            console.log(plot);
 
-            var layout = {font: {size: 18}};
+            var layout = {
+                width: 1920,
+                height: 1080,
+                font: {size: 13},
+                title: 'Donut Chart + Bar Chart', 
+                xaxis: {
+                  title: ['Product Name'], 
+                  domain: [0.33, 0.67]
+                }, 
+                yaxis: {
+                  title: 'Protein', 
+                  domain: [0.33, 0.67]
+                },
+                automargin: true,
+                autosize: false,
+                showlegend: true
+            };
+
             var config = {responsive: true};
+
+
             Plotly.newPlot(PLOT,plot,layout,config);
         }
     });
