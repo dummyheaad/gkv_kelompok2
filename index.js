@@ -111,17 +111,37 @@ let btn_baca = document.getElementById('btn').addEventListener('click', () => {
                 font: {size: 13},
                 title: 'Donut Chart + Bar Chart', 
                 annotations: [{
+                    // Anotasi calories
                     text: 'Calories',
                     font: {
                         size: 16,
                         color: 'black'
                     },
-                    showarrow: false,
+                    arrowhead: 5,
+                    showarrow: true,
                     align: 'center',
                     x: 0.3,
-                    y: 0.04,
+                    y: 0.2,
                     xref: 'paper',
-                    yref: 'paper'
+                    yref: 'paper',
+                    ax: -100,
+                    ay: 100
+                },{
+                    // Anotasi sugars
+                    text: 'Sugars',
+                    font: {
+                        size: 16,
+                        color: 'black'
+                    },
+                    arrowhead: 5,
+                    showarrow: true,
+                    align: 'center',
+                    x: 0.7,
+                    y: 0.5,
+                    xref: 'paper',
+                    yref: 'paper',
+                    ax: 300,
+                    ay: 0
                 }],
                 xaxis: {
                   title: 'Product Name', 
