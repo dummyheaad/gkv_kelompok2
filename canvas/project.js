@@ -151,7 +151,7 @@ var DoughnutChart = function(options) {
     // Menampilkan Legenda
     if (this.options.legends) {
       for (var i = 0;i < 10;i ++) {
-        gambarLingkaran(this.ctx,2.5 * this.options.posX,0.48 * this.options.posY + 35*i,10,0,2  *Math.PI,false,this.options.colors[i]);
+        gambarLingkaran(this.ctx,2.5 * this.options.posX,0.46 * this.options.posY + 35*i,10,0,2  *Math.PI,false,this.options.colors[i]);
         gambarTeks(this.ctx,Object.keys(this.options.data)[i],2.55 * this.options.posX,0.48 * this.options.posY + 35*i,"bold 20px Times New Roman","#454343");
       }
     }
