@@ -1,4 +1,4 @@
-// Menambahkan (append) beberapa elemen HTML
+// Menambahkan (append) beberapa element HTML ke body
 const input = document.createElement('input');
 input.type = 'file';
 input.id = 'csv-file';
@@ -13,11 +13,14 @@ document.body.appendChild(button);
 const div = document.createElement('div');
 div.id = 'myLegend';
 document.body.appendChild(div);
-//////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////
 
+// Import library
 const canvasSketch = require('canvas-sketch');
 const Papa = require('papaparse');
+//////////////////////////////////////////////
 
+// Fungsi untuk menggambarkan garis
 function gambarGaris(ctx, x0, y0, x1, y1, warna = "black") {
   ctx.save();
   ctx.strokeStyle = warna;
@@ -28,6 +31,7 @@ function gambarGaris(ctx, x0, y0, x1, y1, warna = "black") {
   ctx.stroke();
 }
 
+// Fungsi untuk menggambarkan frame persegi panjang
 function gambarFrame(ctx,x,y,width,height,color="#454343") {
   ctx.save();
   ctx.strokeStyle = color;
@@ -36,6 +40,7 @@ function gambarFrame(ctx,x,y,width,height,color="#454343") {
   ctx.restore();
 }
 
+// Fungsi untuk menggambarkan teks
 function gambarTeks(ctx, teks, x, y, font = "30px Arial", fill = "black") {
   ctx.font = font;
   ctx.fillStyle = fill;
@@ -43,6 +48,7 @@ function gambarTeks(ctx, teks, x, y, font = "30px Arial", fill = "black") {
   ctx.fillText(teks,x,y);
 }
 
+// Fungsi untuk menggambarkan lingkaran
 function gambarLingkaran(ctx, cx, cy, rad, sdtAwal, sdtAkhir,arah,fill) {
   ctx.beginPath();
   ctx.arc(cx,cy,rad,sdtAwal,sdtAkhir);
@@ -53,6 +59,7 @@ function gambarLingkaran(ctx, cx, cy, rad, sdtAwal, sdtAkhir,arah,fill) {
   ctx.stroke();
 }
 
+// Fungsi untuk menggambarkan potongan pie chart
 function gambarPieSlice(ctx, cx, cy, rad, sdtAwal, sdtAkhir, warna) {
   ctx.fillStyle = warna;
   ctx.beginPath();
@@ -65,6 +72,7 @@ function gambarPieSlice(ctx, cx, cy, rad, sdtAwal, sdtAkhir, warna) {
   ctx.closePath();
 }
 
+// Fungsi untuk membuat Donut Chart
 var DoughnutChart = function(options) {
   this.options = options;
   this.width = options.width;
@@ -177,12 +185,16 @@ const sketch = () => {
         header: true,
         skipEmptyLines: true,
         complete: function(result) {
+            // Pengecekan fungsionalitas papa parse
             console.log(result.data);
 
+            // Preparasi variabel
             var nama = [];
             var kal = [];
             var pro = [];
             var rat = [];
+
+            // Inisialisasi variabel
             for (var i = 0;i < 10;i ++) {
               nama.push(result.data[i].name);
               kal.push(parseInt(result.data[i].calories));
@@ -190,14 +202,17 @@ const sketch = () => {
               rat.push(parseFloat(result.data[i].rating));
             }
 
-
+            // Data untuk Doughnut Chart pertama
             let data_1 = [];
             for (var i = 0;i < 10;i ++) {
               data_1[nama[i]] = kal[i];
             }
 
+            // Variabel untuk menyimpan warna (diambil dari plotly default color sequence)
+
             var color = ["#1f77b4","#ff7f0e","#2ca02c","#d62728","#9467bd","#8c564b","#e377c2","#7f7f7f","#bcbd22","#17becf"]
-            var myLegend = document.getElementById("myLegend");
+
+            // Doughnut Chart Pertama
             var dc_1 = new DoughnutChart(
               {
                 ctx: context,
@@ -212,11 +227,13 @@ const sketch = () => {
               }
             );
 
+            // Data untuk Doughnut Chart kedua
             let data_2 = [];
             for (var i = 0;i < 10;i ++) {
               data_2[nama[i]] = pro[i];
             }
 
+            // Doughnut Chart kedua
             var dc_2 = new DoughnutChart(
               {
                 ctx: context,
@@ -230,11 +247,13 @@ const sketch = () => {
               }
             )
 
+            // Data untuk Doughnut Chart ketiga
             let data_3 = [];
             for (var i = 0;i < 10;i ++) {
               data_3[nama[i]] = rat[i];
             }
 
+            // Doughnut Chart ketiga
             var dc_3 = new DoughnutChart(
               {
                 ctx: context,
